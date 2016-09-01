@@ -1,0 +1,6 @@
+{
+  "controls": true,
+  "progress": true,
+  "transition": "fade",
+  "transitionSpeed": "fast"
+}
