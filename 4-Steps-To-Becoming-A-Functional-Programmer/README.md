@@ -4,18 +4,32 @@
 
 ---
 
-#Functional Programming is taking over
+###Functional Programming is taking over
 
 ---
 
 Facebook,Apple,Mozilla
 
-Sun,
+Sun,Microsoft
 
 ---
 
 ![wantToLearn](images\wantToLearn.png)
 
 
-https://medium.com/@sachagreif/the-state-of-javascript-front-end-frameworks-1a2d8a61510#.cl0ytej2r
+<sub>https://medium.com/@sachagreif/the-state-of-javascript-front-end-frameworks-1a2d8a61510#.cl0ytej2r</sub>
+
 ---
+
+###How do you get started?
+
+---
+
+1. Be open to a new approach
+2. Stop mutating state
+3. Embrace purity
+4. Pipeline with Higher Order Functions
+
+---
+
+
