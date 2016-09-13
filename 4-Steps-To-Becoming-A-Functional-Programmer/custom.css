@@ -132,8 +132,8 @@ body {
   border: 0;
 }
 
-span.n {
-	color : #ca1243 !important;
+span.n, span.hljs-number {
+  color : #ca1243 !important;
 }
 
 span.p, span.prep, span.s, span.hljs-string  {
