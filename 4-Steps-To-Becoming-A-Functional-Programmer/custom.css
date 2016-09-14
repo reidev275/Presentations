@@ -13,6 +13,14 @@ body {
   font-weight: normal;
   color: #63666a; }
 
+.feature {
+  background-color:#3c9a71 !important;
+}
+.feature h3 {
+  color: #fff !important;
+}
+
+
 ::selection {
   color: #63666a;
   background: rgba(0, 0, 0, 0.99);
@@ -131,6 +139,8 @@ body {
   background: #fff !important;
   border: 0;
 }
+
+
 
 span.n, span.hljs-number {
   color : #ca1243 !important;

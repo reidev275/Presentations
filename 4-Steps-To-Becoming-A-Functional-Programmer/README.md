@@ -4,6 +4,7 @@
 
 ---
 
+<!-- .slide: class="feature" -->
 ###Functional Programming is taking over
 
 ---
@@ -15,7 +16,32 @@
 
 ---
 
-###How do you get started?
+Top wanted tech (via StackOverflow)
+
+![wanted](images\wanted.png)
+
+---
+
+Top wanted tech (via StackOverflow)
+
+![wantedFP](images\wantedFP.png)
+
+---
+
+Top Paying tech (via StackOverflow)
+
+![topPaying](images\topPaying.png)
+
+---
+
+Top Paying tech (via StackOverflow)
+
+![topPayingDataRemoved](images\topPayingDataRemoved.png)
+
+---
+
+<!-- .slide: class="feature" -->
+###How do I get started?
 
 ---
 
@@ -26,7 +52,7 @@
 
 ---
 
-###Be open to a new approach
+###1. Be open to a new approach
 
 ---
 
@@ -38,7 +64,7 @@
 
 ---
 
-###No more loops
+###2. No more loops
 
 ---
 
@@ -73,13 +99,11 @@ const isEven = x => x % 2 == 0,
 ---
 
 ```js
-const isEven = x => x % 2 == 0,
-      timesTwo = x => x * 2;
-
-[1,2,3,4].filter(isEven)
-         .map(timesTwo)
+const timesTwo = x => x * 2;
 
 timesTwo(2)
+
+[1,2,3,4].map(timesTwo)
   
 $.when(2)
 .then(timesTwo)
@@ -98,8 +122,71 @@ function getAdmins() {
 
 ---
 
-###Stop Mutating State
+> "Being abstract is something profoundly different from being vague … The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise." 
+
+Dijkstra
+
+---
+
+###3. Stop Mutating State
+
+---
+
+Mutating state makes code
+
+* Harder to test
+* Harder to debug
+* Harder to parallelize
+* Harder to equate
+
+---
+
+```csharp
+class Person
+{
+  public string Name { get; set; }
+  public int Age { get; set; }
+}
+
+var reid = new Person
+{
+  Name = "Reid",
+  Age = 35 
+}
+var alsoReid = new Person
+{
+  Name = "Reid",
+  Age = 12
+}
+```
+
+---
+
+```csharp
+class Person
+{
+  public Person(string name, DateTime birthdate)
+  {
+    Name = name;
+    Birthdate = birthdate;
+  }
+  public string Name { get; private set; }
+  public DateTime Birthdate { get; private set; }
+}
+```
+
+---
+
+###4. Embrace Purity 
 
 ---
 
 
+
+---
+
+Additional Resources
+
+* Simple Made Easy - Rich Hickey
+* Practical Functional Programming - James Coglan
+* Stop Writing Classes - Jack Diederich
