@@ -122,6 +122,8 @@ function getAdmins() {
 
 ---
 
+<!-- .slide: class="quote" -->
+
 > "Being abstract is something profoundly different from being vague … The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise." 
 
 Dijkstra
@@ -132,12 +134,9 @@ Dijkstra
 
 ---
 
-Mutating state makes code
+<!-- .slide: class="feature" -->
 
-* Harder to test
-* Harder to debug
-* Harder to parallelize
-* Harder to equate
+Mutating state makes code harder to equate
 
 ---
 
@@ -177,11 +176,77 @@ class Person
 
 ---
 
+<!-- .slide: class="feature" -->
+
+Mutating state makes code
+
+* Harder to test
+* Harder to debug
+* Harder to parallelize
+
+---
+
+```js
+var two = 2;
+
+$.get('/numberOfTheDay')
+.then(x => two += x);
+
+console.log(two)
+```
+
+---
+
+```js
+const two = 2;
+
+$.get('/numberOfTheDay')
+ .then(x => two + x)
+ .then(console.log);
+```
+
+---
+
 ###4. Embrace Purity 
 
 ---
 
+```js
+var z = 10;
 
+function add(x, y) {
+    return x + y;
+}
+```
+
+---
+
+```js
+function five() {
+  return 5;
+}
+```
+
+---
+
+```js
+function timesTwo(x) {
+  return x * 2;
+}
+```
+
+---
+
+```js
+const timesTwo = x => x * 2;
+
+timesTwo(2)
+
+[1,2,3,4].map(timesTwo)
+  
+$.when(2)
+.then(timesTwo)
+```
 
 ---
 
