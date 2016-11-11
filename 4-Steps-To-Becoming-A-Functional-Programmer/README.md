@@ -255,3 +255,6 @@ Additional Resources
 * Simple Made Easy - Rich Hickey
 * Practical Functional Programming - James Coglan
 * Stop Writing Classes - Jack Diederich
+* [@ReidNEvans](http://twitter.com/reidnevans)
+* [http://reidevans.tech](http://reidevans.tech)
+* [@FunctionalKnox](http://twitter.com/functionalknox)
