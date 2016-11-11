@@ -25,9 +25,14 @@ body {
   background-color:#3C659A !important;
   color: #fff;
 }
+.question {
+  background-color:#50a14f !important;
+  color: #fff;
+}
 
 .slides {
-  top: 40% !important;
+  /*top: 40% !important;*/
+  width: 100% !important;
 }
 
 ::selection {
@@ -182,15 +187,18 @@ span.i {
 .reveal code {
   font-family: "Ubuntu Mono"; 
   color: #494b53 !important;
+  font-size: 22px;
+  line-height: 1.2em;
 }
 
 .reveal pre code {
   display: block;
-  padding: 0px;
+  padding: 5px;
   overflow: auto;
   max-height: 600px;
   word-wrap: normal;
-  background: #fff !important;
+  background-color: #fff !important;
+  border: 1px solid #d8d8d8 !important;
   color: #494b53 !important; }
 
 .reveal table {
