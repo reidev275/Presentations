@@ -1,6 +1,17 @@
 ### The 4 steps to becoming a Functional Programmer
 #### [@ReidNEvans](http://twitter.com/ReidNEvans)
 #### http://reidevans.tech
+#### [@FunctionalKnox](http://twitter.com/FunctionalKnox)
+
+---
+
+* A strong desire to be overly vocal to anyone who might possibly listen to you
+* Wanting to look down upon other developers (bonus points for fans of
+  towers, ivory, or neck hair)
+* Being unhappy working in any language someone might actually
+  pay you to use
+* wanting to write overly academic code that has no value to real world business
+  problems
 
 ---
 
