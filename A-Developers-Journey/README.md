@@ -1,7 +1,7 @@
 ### A Developer's journey from OO to Functional
-####[@ReidNEvans](http://twitter.com/reidnevans)
-####http://reidevans.tech
-####[@FunctionalKnox](http://twitter.com/functionalknox)
+#### [@ReidNEvans](http://twitter.com/reidnevans)
+#### http://reidevans.tech
+#### [@FunctionalKnox](http://twitter.com/functionalknox)
 
 ---
 
@@ -525,12 +525,39 @@ let log func input =
 
 ---
 
+You're already using these techniques!
+
+```csharp
+var strings = new List<string>{ "hello", "world" };
+
+string ToUpper(string s) {
+	return s.ToUpper();
+}
+
+int Length(string s) {
+	return s.Length;
+}
+
+strings.Select(ToUpper); // "HELLO", "WORLD"
+strings.Select(Length); // 5, 5
+```
+
+---
+
+Select definition
+
+```csharp
+static IEnumerable<U> Select<T>(this IEnumerable<T> ts, Func<T, U> mapper)
+```
+
+---
+
 <!-- .slide: class="quote" -->
 Staying focused on the happy path
 
 ---
 
-Happy Path in C#
+Happy Path in OO / Imperative 
 
 ```csharp
 public void InsertLocation(Location location)
@@ -543,7 +570,7 @@ public void InsertLocation(Location location)
 
 ---
 
-```
+```csharp
 public void InsertLocation(Location location)
 {
 	if (!validateRequest(location))
@@ -575,24 +602,26 @@ public void InsertLocation(Location location)
 
 ---
 
-Happy Path in F#
+Happy Path with FP
 
-```fsharp
-let insertLocation = 
-    validateRequest
-    >>= updateDbFromRequest
-    >>= emailNearbyCustomers
+```csharp
+IMaybe<Location> InsertLocation(Request x) {
+	return ValidateRequest(x)
+		.Chain( UpdateDbFromRequest )
+		.Chain( EmailNearbyCustomers )
+}
 ```
 
 ---
 
-Unhappy Path in F#
+Unhappy Path in FP
 
-```fsharp
-let insertLocation = 
-    validateRequest
-    >>= updateDbFromRequest
-    >>= emailNearbyCustomers
+```csharp
+IMaybe<Location> InsertLocation(Request x) {
+	return ValidateRequest(x)
+		.Chain( UpdateDbFromRequest )
+		.Chain( EmailNearbyCustomers )
+}
 ```
 
 ---
@@ -601,23 +630,56 @@ let insertLocation =
 
 ---
 
-```javascript
-var addOne = x => x + 1
+Remember Pure Functions?
 
-$.when(1)
-.then(addOne)
-.then(console.log);	
-// 2
+```fsharp
+// Impure
+let divide x y = x / y
 
-[1,2].map(addOne);
-// [2,3]
+// Pure
+let divide x y =
+    if y = 0
+    then None
+    else Some (x / y)
+```
+
+---
+
+Encoding Logic flow into the type system
+```csharp
+IMaybe<Location> InsertLocation(Request x) {
+	return ValidateRequest(x)
+		.Chain( UpdateDbFromRequest )
+		.Chain( EmailNearbyCustomers )
+}
+```
+
+---
+
+Imperatively branching
+```csharp
+public void InsertLocation(Location location)
+{
+	if (!validateRequest(location))
+		throw new ArgumentException("Location not valid");
+	try
+	{
+		db.updateDbFromRequest(location);
+	} 
+	catch (Exception e)
+	{
+		Logger.Log(e);
+		throw;
+	}	
+	email.EmailNearbyCustomers(location);
+}
 ```
 
 ---
 
 C# .NET 4.5
 	
-```
+```csharp
 async Task<int> AddSomeNumbers()
 {
 	int one = await Task.FromResult(1);
@@ -626,110 +688,13 @@ async Task<int> AddSomeNumbers()
 }
 ```
 
-Javascript ES7
-	
-```
-async function getTweetContent() {
-	let tweet = await getJSON('http://twitter.com/mytweet.json');
-	return tweet.Content;
+Without Syntatic Sugar	
+```csharp
+async Task<int> AddSomeNumbers()
+{
+	return Task.FromResult(1)
+		.Chain(x => Task.FromResult(x + 2))
 }
-```
-
----
-
-```
-_.map(['Hello', 'Detroit'], x => x.length)
-// [5, 6]
-```
-
----
-
-```
-_.map(['Hello', 'Detroit'], x => x.split())
-// [ ['H','e','l','l','o'], ['D','e','t','r','o','i','t'] ]
-```
-
----
-
-```
-_.map(['Hello', 'Detroit'], x => x.split())
-// [ ['H','e','l','l','o'], ['D','e','t','r','o','i','t'] ]
-
-_.flatMap(['Hello', 'Detroit'], x => x.split())
-// ['H','e','l','l','o','D','e','t','r','o','i','t']
-```
-
----
-
-<!-- .slide: class="quote" -->
-Arrays, Promises, Options, etc are all just contexts for data.
-
----
-
-Unhappy Path in F#
-
-```fsharp
-let insertLocation = 
-    validateRequest
-    >>= updateDbFromRequest
-    >>= emailNearbyCustomers
-```
-
----
-
-```fsharp
-let insertLocation = 
-    validateRequest
-    >> flatMap updateDbFromRequest
-    >> flatMap emailNearbyCustomers
-```
-
----
-
-```fsharp
-type Option<'T> =
-	| Some of 'T
-	| None
-
-let divide bottom top =
-	if bottom = 0
-	then None
-	else Some(top/bottom)
-	
-divide 4 8
-//int option = Some 2
-
-divide 0 8
-//int option = None
-```
-
----
-
-```fsharp
-
-let flatMap f opt =
-    match opt with
-    | Some x -> f x
-    | None -> None
-
-divide 4 8
-|> flatMap (divide 2)
-// int option = Some 1
-
-divide 0 8
-|> flatMap (divide 2)
-// int option = None
-```
-
----
-
-```fsharp
-let square x = x * x
-
-divide 4 8
-|> map square
-|> flatMap (divide 2)
-// int option = Some 2
 ```
 
 ---
@@ -749,19 +714,6 @@ How do I choose a functional language?
 
 ---
 
-```csharp
-public IMaybe<int> InsertLocation(Location location)
-{
-      return validateRequest(location)
-          .flatMap(db.updateDbFromRequest)
-          .flatMap(email.EmalNearbyCustomers);
-}
-```
-
-[http://tinyurl.com/ReidIMaybe](http://tinyurl.com/ReidIMaybe)
-
----
-
 ## Anecdotal Results of switching to FP
 
 * Social dealer management system for Freightliner
@@ -771,34 +723,6 @@ public IMaybe<int> InsertLocation(Location location)
 
 ---
 
-### Bug #1
-
-```fsharp
-type GetChildObjects = 
-    SqlCommandProvider<
-        "Select * FROM ChildTable where id = @id", "connectionString">
-
-type GetChildObjects' = 
-    SqlCommandProvider<
-        "Select * FROM ChildTable where parentId = @id", "connectionString">	
-```
-
----
-
-### Bug #2
-
-```fsharp
-type GetChildObjects = 
-    SqlCommandProvider<
-        "Select * FROM ChildTable where parentId = @id", "connectionString">
-		
-let getChildObjects parentId = 
-    use query = new GetChildObjects()
-    query.Execute(parentId)
-    |> Seq.map (fun x -> { Id = x.Id; Name = x.Name })
-```
-
----
 
 <!-- .slide: class="quote" -->
 > The model you use to view the world shapes the thoughts you are able to think.
