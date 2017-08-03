@@ -1,7 +1,12 @@
 ### A Developer's journey from OO to Functional
 #### [@ReidNEvans](http://twitter.com/reidnevans)
-#### http://reidevans.tech
+#### http://tinyurl.com/ReidYouTube
 #### [@FunctionalKnox](http://twitter.com/functionalknox)
+#### Senior Consultant - @ResultStack
+
+---
+
+![sponsors](images/sponsors.png)
 
 ---
 
@@ -22,7 +27,6 @@ Overview
 
 ---
 
-
 My beginnings in professional development
 
 ```
@@ -34,6 +38,8 @@ end;
 
 
 ---
+
+My Complex Delphi ~ 2006
 
 ```
 procedure TForm1.Button1Click(Sender: TObject);
@@ -78,6 +84,10 @@ void button1_Click(object sender, System.EventArgs e)
 
 ---
 
+![highfive](images/highfive.gif)
+
+---
+
 <!-- .slide: class="question" -->
 What if I want to do the same thing from a different event?
 
@@ -109,7 +119,7 @@ void CreateLocation()
 
 ---
 
-````
+```
 public class LocationsManager  
 {
 	public void CreateLocation(string city, string state) 
@@ -143,7 +153,9 @@ How should all this code fit together?
 
 ---
 
-Factory 
+### Factory 
+
+Returns an Abstraction
 
 ```
 public class Bar
@@ -160,9 +172,12 @@ public class Bar
 }
 ```
 
+
 ---
 
-Strategy
+### Strategy
+
+Allows you to receive an abstraction
 
 ```
 interface IBowler
@@ -230,6 +245,8 @@ public class LocationsManager
 ```
 
 ---
+
+SOLID
 
 ```
 public class LocationsManager  
@@ -356,9 +373,9 @@ Can we stay SOLID without code bloat?
 ---
 
 <!-- .slide: class="quote" -->
->If you have a class with two methods and one of them is the constructor you have a function
+>If you have a class with two methods and one of them is the constructor, you have a function
 
-@JackDied
+@JackDied - "Stop Writing Classes"
 
 ---
 
@@ -385,6 +402,33 @@ public class LocationsManager
 
 ---
 
+![mindblown](images/mindblown.gif)
+
+---
+
+Both take 4 arguments
+
+```
+public class LocationsManager  
+{
+	readonly ILocationRepository _locationRepository;
+	readonly IStateValidator _stateValidator;
+	
+	public LocationsManager(ILocationRepository r, IStateValidator v)
+	{
+		_locationRepository = r; 
+		_stateValidator = v;
+	}
+
+	public void CreateLocation(string city, string state)
+	{
+		if (!_stateValidator.IsValid(state)) 
+			throw new ArgumentException("Not a valid State");
+		_locationRepository.Insert(city, state);
+	}
+}
+```
+
 ```
 let createLocation insert isValid city state =
     if state |> isValid
@@ -409,9 +453,17 @@ Every element in the domain must be mapped to some element in the codomain
 
 ---
 
+![DomainCodomain](images/domain-codomain.png)
+
+---
+
 ## Determinism
 
 Calling a function with the same value (in domain) results in same value (in codomain).
+
+---
+
+![DomainCodomain](images/domain-codomain.png)
 
 ---
 
@@ -451,44 +503,69 @@ let divide x y = x / y
 
 ---
 
+![itsatrap](images/itsatrap.gif)
+
+---
+
 ```fsharp
-let divide x y =
-    if y = 0
-    then None
-    else Some (x / y)
+let divide x y = x / y
+divide 1 0
+//Unhandled Exception: System.DivideByZeroException
 ```
 
 ---
 
 <!-- .slide: class="quote" -->
-Every function can be replaced with any other function that has the same signature
+Throwing an exception is almost always the wrong decision
 
 ---
 
 ```csharp
-interface ICalculator { int Calculate(int input); }
+double Divide(double numerator, double denominator) 
+```
 
-class LoggingCalculator: ICalculator
-{
-   ICalculator _innerCalculator;
-   LoggingCalculator(ICalculator innerCalculator)
-   {
-	  _innerCalculator = innerCalculator;
-   }
+---
 
-   public int Calculate(int input) 
-   { 
-	  Console.WriteLine("input is {0}", input);
-	  var result  = _innerCalculator.Calculate(input);
-	  Console.WriteLine("result is {0}", result);
-	  return result; 
-   }
+```csharp
+int Divide(int numerator, int denominator) 
+  |             \                 /
+  |              ------     ----- 
+  |                    \   /
+codomain               Domain
+
+```
+
+> "For any 2 ints I will return an int"
+
+---
+
+![divideByZero](images/divideByZero.jpg)
+
+---
+
+
+```csharp
+IMaybe<int> Divide(int x, int y)
+```
+
+> "For any 2 ints I'll try to return an int"
+
+---
+
+```csharp
+IMaybe<int> Divide(int x, int y) {
+	return y == 0
+		? new Nothing<int>()
+		: new Just(x / y);
 }
 ```
 
 ---
 
-Equivalent JS
+<!-- .slide: class="quote" -->
+Programming with functions actually provides Code Reuse
+
+---
 
 ```javascript
 var log = function(func, input) {
@@ -511,16 +588,6 @@ public static TResult Log<T, TResult>(Func<T, TResult> func, T input)
 	Console.WriteLine("result is " + result.ToString());
 	return result;
 }
-```
-
-The same code in F#
-
-```fsharp
-let log func input = 
-    printfn "input is %A" input
-    let result = func input
-    printfn "result is %A" result
-    result
 ```
 
 ---
@@ -723,6 +790,13 @@ How do I choose a functional language?
 
 ---
 
+![ResultStack](images/resultstack.png)
+
+@ResultStack
+
+ResultStack.com
+
+---
 
 <!-- .slide: class="quote" -->
 > The model you use to view the world shapes the thoughts you are able to think.
@@ -731,7 +805,8 @@ How do I choose a functional language?
 
 ---
 
-###[@ReidNEvans](http://twitter.com/reidnevans)
+### [@ReidNEvans](http://twitter.com/reidnevans)
 
-####http://reidevans.tech
-####[@FunctionalKnox](http://twitter.com/functionalknox)
+#### http://tinyurl.com/ReidYouTube
+#### http://reidevans.tech
+#### [@FunctionalKnox](http://twitter.com/functionalknox)
